@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -47,7 +49,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-
+                    cardBoxComponent1()
                 }
             }
         }
@@ -83,13 +85,80 @@ fun roundRect(
 }
 
 @Composable
-fun cardComponent(rotationAngle: Float, bgColor: Long, cornerRadius: Dp) {
+fun cardBoxComponent1() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
+            .height(400.dp)
+            .padding(bottom = 20.dp)
+
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(400.dp)
+                .padding(30.dp)
+
+        ) {
+            Box(modifier = Modifier
+                .align(Alignment.BottomCenter).height(120.dp).padding(top = 0.dp)){
+
+                customChipComponent(
+                    rotationAngle = 5f,
+                    bgColor = 0xFF262835,
+                    cornerRadius = 25.dp,
+                    iconResInt = R.drawable.netflix_1_logo_svgrepo_com,
+                    amount = "10$",
+                    label = "Netflix",
+                    opacity = 0.1f,
+                    mods = Modifier.align(Alignment.BottomCenter)
+                )
+                customChipComponent(
+                    rotationAngle = -2f,
+                    bgColor = 0xFF262835,
+                    cornerRadius = 25.dp,
+                    iconResInt = R.drawable.spotify_color_svgrepo_com,
+                    amount = "10$",
+                    label = "Spotify",
+                    opacity = 0.3f,
+                    mods = Modifier.align(Alignment.TopCenter)
+                )
+
+            }
+
+            customChipComponent(
+                rotationAngle = -5f,
+                bgColor = 0xFF262835,
+                cornerRadius = 25.dp,
+                iconResInt = R.drawable.amazon_color_svgrepo_com,
+                amount = "243$",
+                label = "Amazon",
+                opacity = 0.3f,
+                mods = Modifier.align(Alignment.TopCenter)
+            )
+
+
+            cardComponent(
+                rotationAngle = -5f,
+                bgColor = 0xFF262835,
+                25.dp,
+                mods = Modifier.align(Alignment.TopCenter)
+            )
+
+        }
+
+    }
+}
+
+@Composable
+fun cardComponent(rotationAngle: Float, bgColor: Long, cornerRadius: Dp, mods: Modifier) {
+    Box(
+        modifier = mods
+            .fillMaxWidth()
             .height(240.dp)
-            .padding(30.dp)
+            .padding(start = 5.dp, end = 5.dp, top = 35.dp, bottom = 10.dp)
             .rotate(rotationAngle)
+            .alpha(0.9f)
 
     ) {
         /*you can make this a shape using the concept detailed here:
@@ -167,10 +236,11 @@ fun customChipComponent(
     iconResInt: Int,
     label: String,
     amount: String,
-    opacity: Float
+    opacity: Float,
+    mods: Modifier
 ) {
     Box(
-        modifier = Modifier
+        modifier = mods
             .fillMaxWidth()
             .height(70.dp)
             .padding(start = 60.dp, end = 60.dp)
@@ -257,24 +327,25 @@ fun rotationDemoComponent(mods: Modifier, rotationAngle: Float, label: String, b
  */
 
 
-@Preview(showBackground = false)
+@Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     UiDemo3Theme {
         /*cardComponent(
             rotationAngle = -10f,
-            bgColor = 0xFF272936,
+            bgColor = 0xFF262835,
             25.dp
         )*/
 
-        customChipComponent(
-            rotationAngle = 0f,
-            bgColor = 0xFF272936,
-            cornerRadius = 25.dp,
-            iconResInt = R.drawable.spotify_color_svgrepo_com,
-            amount = "10$",
-            label = "Spotify",
-            opacity = 1f
-        )
+        /* customChipComponent(
+             rotationAngle = 0f,
+             bgColor = 0xFF262835,
+             cornerRadius = 25.dp,
+             iconResInt = R.drawable.spotify_color_svgrepo_com,
+             amount = "10$",
+             label = "Spotify",
+             opacity = 1f
+         )*/
+        //cardBoxComponent1()
     }
 }
