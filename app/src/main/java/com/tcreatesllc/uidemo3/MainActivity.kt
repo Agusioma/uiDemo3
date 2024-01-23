@@ -1,6 +1,10 @@
 package com.tcreatesllc.uidemo3
 
+import android.os.Build
 import android.os.Bundle
+import android.view.WindowInsets
+import android.view.WindowInsetsController
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Canvas
@@ -39,11 +43,25 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.view.WindowCompat
 import com.tcreatesllc.uidemo3.ui.theme.UiDemo3Theme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        actionBar?.hide()
+
+        //Hide the status bars
+
+        WindowCompat.setDecorFitsSystemWindows(window, true)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        } else {
+            window.insetsController?.apply {
+                hide(WindowInsets.Type.systemBars())
+                systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            }
+        }
         setContent {
             UiDemo3Theme {
                 // A surface container using the 'background' color from the theme
@@ -51,7 +69,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    cardBoxComponent2()
+                    screenOne()
                 }
             }
         }
@@ -63,32 +81,6 @@ val demoFontFamily = FontFamily(
     Font(R.font.poppins_regular, FontWeight.Normal),
     Font(R.font.poppins_bold, FontWeight.Bold)
 )
-
-@Composable
-fun titleAndSubTitle(title: String, subTitle: String){
-    Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ){
-        Text(
-            text = title,
-            color = Color.LightGray,
-            fontFamily = demoFontFamily,
-            fontWeight = FontWeight.Bold,
-            fontSize = 25.sp,
-            textAlign = TextAlign.Center,
-        )
-        Text(
-            text = subTitle,
-            color = Color.Gray,
-            fontFamily = demoFontFamily,
-            fontWeight = FontWeight.Light,
-            fontSize = 15.sp,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(start = 10.dp)
-        )
-    }
-}
 
 @Composable
 fun roundRect(
@@ -185,18 +177,43 @@ fun cardBoxComponent1() {
 
 
 @Composable
-fun cardBoxComponent2() {
+fun screenOne() {
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(140.dp)
+            .fillMaxHeight()
+            .padding(25.dp)
 
     ) {
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.align(Alignment.TopCenter)
+        ) {
+            Box(modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp)) {
+                titleAndSubTitle(
+                    title = "Manage your regular expenses",
+                    subTitle = "Enter the existing subscriptions and have an easy overview",
+                    mods = Modifier.align(Alignment.BottomCenter)
+                )
+                Icon(
+                    painter = painterResource(id = R.drawable.round_chevron_left_24),
+                    contentDescription = "",
+                    tint = Color.LightGray,
+                    modifier = Modifier.align(Alignment.TopStart)
+                )
+            }
+
+        }
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 50.dp, start = 50.dp, bottom = 50.dp, end = 50.dp)
                 .height(140.dp)
+                .align(Alignment.Center)
 
         ) {
 
@@ -240,6 +257,35 @@ fun cardBoxComponent2() {
             )
 
         }
+        Box(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth()
+                .height(200.dp)
+        ) {
+            Text(
+                text = "Main subscriptions: Spotify, Netflix, Glove, PUBG, and 4 more >",
+                color = Color.Gray,
+                fontFamily = demoFontFamily,
+                fontWeight = FontWeight.Light,
+                fontSize = 15.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.align(Alignment.TopCenter)
+            )
+
+            Text(
+                text = "Swipe up to get started",
+                color = Color.LightGray,
+                fontFamily = demoFontFamily,
+                fontWeight = FontWeight.Bold,
+                fontSize = 17.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.align(Alignment.Center)
+            )
+            
+            circleRow(mods = Modifier.align(Alignment.BottomCenter))
+        }
+
     }
 }
 
@@ -484,8 +530,8 @@ fun circle(pos: Int) {
 }
 
 @Composable
-fun circleRow() {
-    Row {
+fun circleRow(mods: Modifier) {
+    Row(modifier = mods) {
         for (i in 0..2) {
             circle(i)
         }
@@ -494,15 +540,32 @@ fun circleRow() {
 }
 
 @Composable
-fun screenOne(){
+fun titleAndSubTitle(title: String, subTitle: String, mods: Modifier) {
     Column(
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ){
-        titleAndSubTitle(title = "Manage your regular expenses", subTitle = "Enter the existing subscriptions and have an easy overview")
-
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = mods
+    ) {
+        Text(
+            text = title,
+            color = Color.LightGray,
+            fontFamily = demoFontFamily,
+            fontWeight = FontWeight.Bold,
+            fontSize = 25.sp,
+            textAlign = TextAlign.Center,
+        )
+        Text(
+            text = subTitle,
+            color = Color.Gray,
+            fontFamily = demoFontFamily,
+            fontWeight = FontWeight.Light,
+            fontSize = 15.sp,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(start = 10.dp)
+        )
     }
 }
+
 
 /*
 @Composable
@@ -554,8 +617,10 @@ fun GreetingPreview() {
              opacity = 1f
          )*/
         //cardBoxComponent1()
-        //cardBoxComponent2()
         //circleRow()
-        titleAndSubTitle(title = "Manage your regular expenses", subTitle = "Enter the existing subscriptions and have an easy overview")
+        /* titleAndSubTitle(
+             title = "Manage your regular expenses",
+             subTitle = "Enter the existing subscriptions and have an easy overview"
+         )*/
     }
 }
