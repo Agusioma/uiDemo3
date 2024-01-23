@@ -21,6 +21,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -39,7 +42,6 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -83,44 +85,28 @@ val demoFontFamily = FontFamily(
 )
 
 @Composable
-fun roundRect(
-    width: Dp,
-    height: Dp,
-    mods: Modifier,
-    bgColor: Long,
-    cornerRadius: Dp
-) {
-    Canvas(
-        modifier = mods
-            .fillMaxWidth()
-            .fillMaxHeight()
-        //.alpha(0.7f)
-    ) {
-        drawRoundRect(
-            color = Color(bgColor),
-            size = Size(width = size.width, height = size.height),
-            cornerRadius = CornerRadius(x = cornerRadius.toPx(), y = 30.dp.toPx())
-        )
-    }
-}
-
-
-@Composable
-fun cardBoxComponent1() {
+fun screenTwo() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(400.dp)
-            .padding(bottom = 20.dp)
+            .fillMaxHeight()
+            .padding(top = 25.dp, bottom = 25.dp, start = 10.dp, end = 10.dp)
 
     ) {
+        Icon(
+            painter = painterResource(id = R.drawable.round_chevron_left_24),
+            contentDescription = "",
+            tint = Color.LightGray,
+            modifier = Modifier.align(Alignment.TopStart)
+        )
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(400.dp)
-                .padding(30.dp)
+                .padding(start = 30.dp, end = 30.dp, top = 100.dp)
 
         ) {
+
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
@@ -170,6 +156,40 @@ fun cardBoxComponent1() {
                 mods = Modifier.align(Alignment.TopCenter)
             )
 
+        }
+
+        Box(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth()
+                .height(350.dp)
+                .padding(start = 33.5.dp, end = 33.5.dp, top = 20.dp)
+        ) {
+            titleAndSubTitle(
+                title = "Link your bank account",
+                subTitle = "Enroll your U.S checking account by using your online banking credentials",
+                mods = Modifier.align(Alignment.TopCenter)
+            )
+
+            Button(onClick = {  },
+                modifier = Modifier.align(Alignment.Center)
+                    .padding(top = 40.dp, bottom = 40.dp, start = 40.dp, end = 40.dp)
+                    .height(50.dp)
+                    .width(140.dp),
+
+                shape = RoundedCornerShape(25),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF36C688))) {
+                Text(
+                    text = "Continue",
+                    color = Color.White,
+                    fontFamily = demoFontFamily,
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 13.sp,
+                    textAlign = TextAlign.Center
+                ) }
+
+
+            circleRow(mods = Modifier.align(Alignment.BottomCenter))
         }
 
     }
@@ -282,12 +302,37 @@ fun screenOne() {
                 textAlign = TextAlign.Center,
                 modifier = Modifier.align(Alignment.Center)
             )
-            
+
             circleRow(mods = Modifier.align(Alignment.BottomCenter))
         }
 
     }
 }
+
+
+@Composable
+fun roundRect(
+    height: Dp,
+    mods: Modifier,
+    bgColor: Long,
+    cornerRadius: Dp
+) {
+    Canvas(
+        modifier = mods
+            .fillMaxWidth()
+            .fillMaxHeight()
+        //.alpha(0.7f)
+    ) {
+        drawRoundRect(
+            color = Color(bgColor),
+            size = Size(width = size.width, height = size.height),
+            cornerRadius = CornerRadius(x = cornerRadius.toPx(), y = 30.dp.toPx())
+        )
+    }
+}
+
+
+
 
 @Composable
 fun cardComponent(rotationAngle: Float, bgColor: Long, cornerRadius: Dp, mods: Modifier) {
@@ -305,7 +350,6 @@ fun cardComponent(rotationAngle: Float, bgColor: Long, cornerRadius: Dp, mods: M
 
          */
         roundRect(
-            width = 168.dp,
             height = 168.dp,
             mods = Modifier.align(
                 Alignment.Center
@@ -392,7 +436,6 @@ fun customChipComponentv2(
 
          */
         roundRect(
-            width = 168.dp,
             height = 168.dp,
             mods = Modifier.align(
                 Alignment.Center
@@ -462,7 +505,6 @@ fun customChipComponent(
 
          */
         roundRect(
-            width = 168.dp,
             height = 168.dp,
             mods = Modifier.align(
                 Alignment.Center
@@ -563,64 +605,5 @@ fun titleAndSubTitle(title: String, subTitle: String, mods: Modifier) {
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(start = 10.dp)
         )
-    }
-}
-
-
-/*
-@Composable
-fun rotationDemoComponent(mods: Modifier, rotationAngle: Float, label: String, bgColor: Long) {
-    Box(
-        modifier = mods
-            //.height(195.dp)
-            .padding(top = 5.dp, bottom = 5.dp)
-
-    ) {
-        roundRect(
-            width = 168.dp,
-            height = 168.dp,
-            rotationAngle = rotationAngle,
-            mods = Modifier.align(
-                Alignment.Center
-            ),
-            bgColor = bgColor
-        )
-        canvasText(
-            mods = Modifier.align(
-                Alignment.Center
-            ),
-            rotationAngle = rotationAngle,
-            label = label
-        )
-    }
-}
- */
-
-
-@Preview(showBackground = false)
-@Composable
-fun GreetingPreview() {
-    UiDemo3Theme {
-        /*cardComponent(
-            rotationAngle = -10f,
-            bgColor = 0xFF262835,
-            25.dp
-        )*/
-
-        /* customChipComponent(
-             rotationAngle = 0f,
-             bgColor = 0xFF262835,
-             cornerRadius = 25.dp,
-             iconResInt = R.drawable.spotify_color_svgrepo_com,
-             amount = "10$",
-             label = "Spotify",
-             opacity = 1f
-         )*/
-        //cardBoxComponent1()
-        //circleRow()
-        /* titleAndSubTitle(
-             title = "Manage your regular expenses",
-             subTitle = "Enter the existing subscriptions and have an easy overview"
-         )*/
     }
 }
