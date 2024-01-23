@@ -14,8 +14,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -27,12 +27,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -49,7 +51,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    cardBoxComponent1()
+                    cardBoxComponent2()
                 }
             }
         }
@@ -61,6 +63,32 @@ val demoFontFamily = FontFamily(
     Font(R.font.poppins_regular, FontWeight.Normal),
     Font(R.font.poppins_bold, FontWeight.Bold)
 )
+
+@Composable
+fun titleAndSubTitle(title: String, subTitle: String){
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        Text(
+            text = title,
+            color = Color.LightGray,
+            fontFamily = demoFontFamily,
+            fontWeight = FontWeight.Bold,
+            fontSize = 25.sp,
+            textAlign = TextAlign.Center,
+        )
+        Text(
+            text = subTitle,
+            color = Color.Gray,
+            fontFamily = demoFontFamily,
+            fontWeight = FontWeight.Light,
+            fontSize = 15.sp,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(start = 10.dp)
+        )
+    }
+}
 
 @Composable
 fun roundRect(
@@ -84,6 +112,7 @@ fun roundRect(
     }
 }
 
+
 @Composable
 fun cardBoxComponent1() {
     Box(
@@ -100,8 +129,12 @@ fun cardBoxComponent1() {
                 .padding(30.dp)
 
         ) {
-            Box(modifier = Modifier
-                .align(Alignment.BottomCenter).height(120.dp).padding(top = 0.dp)){
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .height(120.dp)
+                    .padding(top = 0.dp)
+            ) {
 
                 customChipComponent(
                     rotationAngle = 5f,
@@ -147,6 +180,66 @@ fun cardBoxComponent1() {
 
         }
 
+    }
+}
+
+
+@Composable
+fun cardBoxComponent2() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(140.dp)
+
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 50.dp, start = 50.dp, bottom = 50.dp, end = 50.dp)
+                .height(140.dp)
+
+        ) {
+
+            customChipComponentv2(
+                rotationAngle = -10f,
+                bgColor = 0xFF262835,
+                cornerRadius = 25.dp,
+                iconResInt = R.drawable.netflix_1_logo_svgrepo_com,
+                amount = "43$",
+                label = "Netflix",
+                opacity = 0.1f,
+                mods = Modifier
+                    .align(Alignment.Center)
+                    .padding(start = 50.dp, top = 70.dp)
+            )
+
+            customChipComponentv2(
+                rotationAngle = -10f,
+                bgColor = 0xFF262835,
+                cornerRadius = 25.dp,
+                iconResInt = R.drawable.amazon_color_svgrepo_com,
+                amount = "75$",
+                label = "Amazon",
+                opacity = 0.5f,
+                mods = Modifier
+                    .align(Alignment.TopStart)
+                    .padding(top = 45.dp)
+            )
+
+            customChipComponentv2(
+                rotationAngle = 10f,
+                bgColor = 0xFF262835,
+                cornerRadius = 25.dp,
+                iconResInt = R.drawable.spotify_color_svgrepo_com,
+                amount = "24$",
+                label = "Spotify",
+                opacity = 0.9f,
+                mods = Modifier
+                    .align(Alignment.TopCenter)
+                    .padding(end = 30.dp, bottom = 30.dp)
+            )
+
+        }
     }
 }
 
@@ -229,6 +322,76 @@ fun cardComponent(rotationAngle: Float, bgColor: Long, cornerRadius: Dp, mods: M
 }
 
 @Composable
+fun customChipComponentv2(
+    rotationAngle: Float,
+    bgColor: Long,
+    cornerRadius: Dp,
+    iconResInt: Int,
+    label: String,
+    amount: String,
+    opacity: Float,
+    mods: Modifier
+) {
+    Box(
+        modifier = mods
+            .width(200.dp)
+            .height(70.dp)
+            .padding(start = 0.dp, end = 0.dp)
+            .rotate(rotationAngle)
+            .alpha(opacity)
+
+    ) {
+        /*you can make this a shape using the concept detailed here:
+
+
+         */
+        roundRect(
+            width = 168.dp,
+            height = 168.dp,
+            mods = Modifier.align(
+                Alignment.Center
+            ),
+            bgColor = bgColor,
+            cornerRadius = cornerRadius
+        )
+
+        Row(
+            modifier = Modifier
+                .align(
+                    Alignment.TopStart
+                )
+                .padding(20.dp),
+            verticalAlignment = Alignment.CenterVertically
+
+        ) {
+            Icon(
+                painter = painterResource(id = iconResInt),
+                contentDescription = "",
+                tint = Color.Unspecified,
+            )
+            Text(
+                text = label,
+                color = Color.LightGray,
+                fontFamily = demoFontFamily,
+                fontWeight = FontWeight.Bold,
+                fontSize = 15.sp,
+                modifier = Modifier.padding(start = 10.dp)
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = amount,
+                color = Color.LightGray,
+                fontFamily = demoFontFamily,
+                fontWeight = FontWeight.Normal,
+                fontSize = 15.sp,
+                modifier = Modifier.padding(end = 5.dp)
+            )
+        }
+
+    }
+}
+
+@Composable
 fun customChipComponent(
     rotationAngle: Float,
     bgColor: Long,
@@ -297,6 +460,50 @@ fun customChipComponent(
 
     }
 }
+
+@Composable
+fun circle(pos: Int) {
+    Canvas(modifier = Modifier.size(20.dp)) {
+        if (pos == 0) {
+
+            drawCircle(
+                color = Color.White,
+                radius = 10f,
+                center = Offset(size.width / 2, size.height / 2)
+            )
+        } else {
+            drawCircle(
+                color = Color.Gray,
+                radius = 10f,
+                center = Offset(size.width / 2, size.height / 2)
+            )
+        }
+
+    }
+
+}
+
+@Composable
+fun circleRow() {
+    Row {
+        for (i in 0..2) {
+            circle(i)
+        }
+
+    }
+}
+
+@Composable
+fun screenOne(){
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        titleAndSubTitle(title = "Manage your regular expenses", subTitle = "Enter the existing subscriptions and have an easy overview")
+
+    }
+}
+
 /*
 @Composable
 fun rotationDemoComponent(mods: Modifier, rotationAngle: Float, label: String, bgColor: Long) {
@@ -327,7 +534,7 @@ fun rotationDemoComponent(mods: Modifier, rotationAngle: Float, label: String, b
  */
 
 
-@Preview(showBackground = true)
+@Preview(showBackground = false)
 @Composable
 fun GreetingPreview() {
     UiDemo3Theme {
@@ -347,5 +554,8 @@ fun GreetingPreview() {
              opacity = 1f
          )*/
         //cardBoxComponent1()
+        //cardBoxComponent2()
+        //circleRow()
+        titleAndSubTitle(title = "Manage your regular expenses", subTitle = "Enter the existing subscriptions and have an easy overview")
     }
 }
